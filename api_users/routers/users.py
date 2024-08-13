@@ -4,10 +4,15 @@ from services.shared.users_service import (users_list,
     add_new_user,
     update_user,
     delete_user)
+from schemas.user_schema import UserSchema
+
+from models.user_connection import UserConnection
 
 from fastapi import APIRouter
 
 router = APIRouter(prefix="/users", responses={404: {"description": "Not found"}}, tags=["Users"])
+# Database
+conn = UserConnection()
 
 @router.get("/")
 async def get_users():
@@ -21,6 +26,11 @@ async def get_user(id: int):
 async def get_users_query(id:int):
     return get_user_id(id)
     return list(users)[0]
+
+@router.post("/insert", status_code=201)
+async def insert_user(user: UserSchema):
+    conn.write(user.dict())
+    return user
 
 @router.post("/", status_code=201)
 async def add_user(user: User):
