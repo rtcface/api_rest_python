@@ -9,18 +9,36 @@ class UserConnection:
         except psycopg.OperationalError as e:
             print(e)
             self.conn.close()
-    def getUsers(self):
+    
+    def get_users(self):
+        print("get_users")
         with self.conn.cursor() as cur:
             cur.execute("""
                 SELECT * FROM "tblUsers"
             """)
+            data=cur.fetchall()
+            print(data)
             return cur.fetchall()
-            
-    def write(self, data):
+    
+    def add_user(self, data):
         with self.conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO "tblUsers"(name, phone) VALUES(%(name)s, %(phone)s)
             """, data)
+        self.conn.commit()
+
+    def update_user(self, data, id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                UPDATE "tblUsers" SET name = %(name)s, phone = %(phone)s WHERE id = %(id)s
+            """, data, id)
+        self.conn.commit()
+
+    def delete_user(self, id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "tblUsers" WHERE id = %(id)s
+            """, id)
         self.conn.commit()
 
 
