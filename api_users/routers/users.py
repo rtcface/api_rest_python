@@ -68,4 +68,7 @@ async def delete(id: int):
 
 @router.delete("/users_db/{id}")
 async def delete_udb(id: str):
-    return delete_user_db(id)
+    print("Routers",id)
+    data = delete_user_db(id)
+    print("data Routers",data)
+    return data

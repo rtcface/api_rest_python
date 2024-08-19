@@ -62,8 +62,10 @@ def update_user_db(user: User, id: int):
     conn.update_user(user.dict(), id)
     return user
 # Eliminar usuario
-def delete_user_db(id):
-    return {"id":id} #conn.delete_user(id)
+def delete_user_db(id:str):
+    print("In service delete_user_db")
+    return "id"
+ #{"id":id} #conn.delete_user(id)
 # Obtener usuarios
 def get_users_db():
     print("get_users_db")
