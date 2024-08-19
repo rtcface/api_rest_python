@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 from fastapi import HTTPException
 
+from models.user_connection import UserConnection
+# Database
+conn = UserConnection()
+
 class User(BaseModel):
     id: int
     name: str
@@ -46,5 +50,44 @@ def update_user(user: User):
     user_update.email = user.email
     user_update.age = user.age
     return user_update
+
+# Funciones con la base de datos
+
+# Insertar usuario
+def add_user_db(user: User):
+    conn.add_user(user.dict())
+    return user
+# Actualizar usuario
+def update_user_db(user: User, id: int):
+    conn.update_user(user.dict(), id)
+    return user
+# Eliminar usuario
+def delete_user_db(id):
+    return {"id":id} #conn.delete_user(id)
+# Obtener usuarios
+def get_users_db():
+    print("get_users_db")
+    items = []
+    for user in conn.get_users():
+        dictionary = {}
+        dictionary["id"] = user[0]
+        dictionary["name"] = user[1]
+        dictionary["phone"] = user[2]
+        items.append(dictionary)
+    return {"users": items}
+# Obtener usuario por id
+
+def get_user_id_db(id):
+    data = conn.get_user_db(id)
+    if data == None:
+        return {"message": "User not found"}
+    
+    dictionary = {}
+    dictionary["id"] = data[0]
+    dictionary["name"] = data[1]
+    dictionary["phone"] = data[2]
+    return {"user": dictionary}
+
+
 
 

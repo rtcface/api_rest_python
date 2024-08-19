@@ -3,16 +3,19 @@ from services.shared.users_service import (users_list,
     User,
     add_new_user,
     update_user,
-    delete_user)
+    delete_user,
+    add_user_db,
+    update_user_db,
+    delete_user_db,
+    get_users_db,
+    get_user_id_db)
 from schemas.user_schema import UserSchema
 
-from models.user_connection import UserConnection
 
 from fastapi import APIRouter
 
 router = APIRouter(prefix="/users", responses={404: {"description": "Not found"}}, tags=["Users"])
-# Database
-conn = UserConnection()
+
 
 @router.get("/")
 async def get_users():
@@ -29,22 +32,25 @@ async def get_users_query(id:int):
 
 @router.post("/insert", status_code=201)
 async def insert_user_db(user: UserSchema):
-    conn.add_user(user.dict())
-    return user
+    return add_user_db(user)
 
 @router.delete("/{id}", status_code=200)
 async def delete_user_db(id: int):
     return id
 
-@router.put("/ubdate_db", status_code=200)
-async def update_user_db(user: User, id: int):
-    conn.update_user(user.dict())
-    return user
+@router.put("/ubdate_db/{id}", status_code=200)
+async def update_user_db(user: UserSchema, id: int):
+    return update_user_db(user, id)
 
-@router.get("/users_db", status_code=200)
-async def get_users_db():
+@router.get("/users_db/", status_code=200)
+async def bk_users_db():
     print("get_users_db")
-    return {"users": conn.get_users()}
+    return get_users_db()
+
+@router.get("/users_db/{id}", status_code=200)
+async def get_user_db(id:str):
+    print(id)
+    return get_user_id_db(id)
 
 
 
@@ -59,3 +65,7 @@ async def update( user: User):
 @router.delete("/{id}", status_code=200)
 async def delete(id: int):
     return delete_user(id)
+
+@router.delete("/users_db/{id}")
+async def delete_udb(id: str):
+    return delete_user_db(id)
