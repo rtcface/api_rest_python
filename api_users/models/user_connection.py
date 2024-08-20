@@ -38,7 +38,7 @@ class UserConnection:
     def bk_delete_user_db(self, id):
         with self.conn.cursor() as cur:
             cur.execute("""
-                DELETE FROM tblUsers WHERE id = %(id)s
+                DELETE FROM tblUsers WHERE id = %s
             """, (id,))
         self.conn.commit()
     

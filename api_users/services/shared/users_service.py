@@ -62,10 +62,6 @@ def update_user_db(user: User, id: int):
     conn.update_user(user.dict(), id)
     return user
 # Eliminar usuario
-def delete_user_db(id:str):
-    print("In service delete_user_db")
-    return "id"
- #{"id":id} #conn.delete_user(id)
 # Obtener usuarios
 def get_users_db():
     print("get_users_db")
@@ -90,6 +86,6 @@ def get_user_id_db(id):
     dictionary["phone"] = data[2]
     return {"user": dictionary}
 
-
-
-
+def borrar_usuario_db(id):
+    conn.bk_delete_user_db(id)
+    return "delete_user_db"

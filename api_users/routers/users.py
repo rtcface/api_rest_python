@@ -6,9 +6,10 @@ from services.shared.users_service import (users_list,
     delete_user,
     add_user_db,
     update_user_db,
-    delete_user_db,
     get_users_db,
-    get_user_id_db)
+    get_user_id_db,
+    borrar_usuario_db)
+
 from schemas.user_schema import UserSchema
 
 
@@ -69,6 +70,8 @@ async def delete(id: int):
 @router.delete("/users_db/{id}")
 async def delete_udb(id: str):
     print("Routers",id)
-    data = delete_user_db(id)
+    data = borrar_usuario_db(id)
     print("data Routers",data)
-    return data
+    return {"message": "User deleted", "data": data}
+
+
