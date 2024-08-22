@@ -28,11 +28,13 @@ class UserConnection:
         self.conn.commit()
 
     def update_user(self, data, id):
+        query = """ UPDATE tblUsers SET name = '%(name)s', phone = '%(phone)s' """ %(data)
+        exc_query = query + "WHERE id = %s" %id
+        print("update_user", exc_query)
+        print(data)
+        print(id)
         with self.conn.cursor() as cur:
-            cur.execute("""
-                UPDATE tblUsers SET name = %(name)s, phone = %(phone)s WHERE id = %(id)s
-            """, data, id)
-
+            cur.execute(exc_query)
         self.conn.commit()
 
     def bk_delete_user_db(self, id):

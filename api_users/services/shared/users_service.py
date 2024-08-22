@@ -58,7 +58,7 @@ def add_user_db(user: User):
     conn.add_user(user.dict())
     return user
 # Actualizar usuario
-def update_user_db(user: User, id: int):
+def bk_update_user_db(user: User, id: int):
     conn.update_user(user.dict(), id)
     return user
 # Eliminar usuario

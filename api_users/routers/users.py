@@ -5,7 +5,7 @@ from services.shared.users_service import (users_list,
     update_user,
     delete_user,
     add_user_db,
-    update_user_db,
+    bk_update_user_db,
     get_users_db,
     get_user_id_db,
     borrar_usuario_db)
@@ -41,7 +41,8 @@ async def delete_user_db(id: int):
 
 @router.put("/ubdate_db/{id}", status_code=200)
 async def update_user_db(user: UserSchema, id: int):
-    return update_user_db(user, id)
+    result = bk_update_user_db(user, id)
+    return result
 
 @router.get("/users_db/", status_code=200)
 async def bk_users_db():
